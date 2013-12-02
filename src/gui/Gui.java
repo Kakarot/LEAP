@@ -197,4 +197,7 @@ public class Gui extends JFrame implements InputListener{
 		}
 	}
 
+//	public void getPIN(){
+//		pin.
+//	}
 }
