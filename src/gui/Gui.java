@@ -30,7 +30,6 @@ public class Gui extends JFrame implements InputListener{
 	private WithdrawScreen with;
 
 	private Owner newOwner;
-
 	TestListener listener;
 	Controller controller;
 	static Gui guiInstance; 

@@ -20,6 +20,7 @@ public class OptionScreen extends JPanel implements InputListener{
 	public JButton end;
 	
 	private static OptionScreen instance;
+	private JLabel myBalanceLabel;
 	
 	private OptionScreen() {
 		setLayout(null);
@@ -45,6 +46,8 @@ public class OptionScreen extends JPanel implements InputListener{
 				Owner newOwner=new Owner();
 				newOwner.getData();
 				System.out.println(newOwner.getCheckingBalance());
+				myBalanceLabel.setText("Balance $"+newOwner.getCheckingBalance());
+			
 				
 			}
         });   
@@ -60,7 +63,7 @@ public class OptionScreen extends JPanel implements InputListener{
 				Owner newOwner=new Owner();
 				newOwner.getData();
 				System.out.println(newOwner.getSavingsBalance());
-				
+				myBalanceLabel.setText("Savings $"+newOwner.getSavingsBalance());
 			}
         });   
 		
@@ -76,6 +79,11 @@ public class OptionScreen extends JPanel implements InputListener{
 		lblPleaseUseThe.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblPleaseUseThe.setBounds(382, 105, 379, 92);
 		add(lblPleaseUseThe);
+		
+		myBalanceLabel = new JLabel("");
+		myBalanceLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		myBalanceLabel.setBounds(83, 509, 181, 40);
+		add(myBalanceLabel);
 	}
 
 	@Override

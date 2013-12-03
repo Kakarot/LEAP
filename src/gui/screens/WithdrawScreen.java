@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 
 import banking.Owner;
+import gui.Gui;
 
 public class WithdrawScreen extends JPanel {
 	private JTextField amt;
@@ -27,10 +28,17 @@ public class WithdrawScreen extends JPanel {
 	public JButton thou; 
 	public JButton fiveHund;
 	public JButton twoHund;
-	
+	public Owner newOwner;
+	public JLabel currentBalanceLabel;
+	public int checkingBalance,savingsBalance;
+    
 	
 	
 	public WithdrawScreen() {
+		newOwner =new Owner();
+		newOwner.getData();
+		checkingBalance=Integer.parseInt(newOwner.getCheckingBalance());
+		savingsBalance=Integer.parseInt(newOwner.getSavingsBalance());
 		setLayout(null);
 		
 		JLabel logos = new JLabel("");
@@ -38,15 +46,15 @@ public class WithdrawScreen extends JPanel {
 		logos.setBounds(0, 0, 800, 71);
 		add(logos);
 		
-		savings = new JRadioButton("Savings Account");
+		savings = new JRadioButton("Savings Account    [Gesture 8]");
 		savings.setSelected(false);
-		savings.setBounds(78, 142, 175, 25);
+		savings.setBounds(78, 142, 228, 25);
 		add(savings);
 		savings.addActionListener(new OnlyOneListener(false));
 		
-		checking = new JRadioButton("Checking Account");
+		checking = new JRadioButton("Checking Account [Gesture 7]");
 		checking.setSelected(true);
-		checking.setBounds(78, 112, 175, 25);
+		checking.setBounds(78, 112, 248, 25);
 		add(checking);
 		checking.addActionListener(new OnlyOneListener(true));
 		
@@ -105,6 +113,14 @@ public class WithdrawScreen extends JPanel {
 		twoHund = new JButton("4) $200");
 		twoHund.setBounds(198, 377, 97, 25);
 		add(twoHund);
+		
+		JLabel lblCheckingBalance = new JLabel("Available Balance: $");
+		lblCheckingBalance.setBounds(198, 458, 128, 16);
+		add(lblCheckingBalance);
+		
+		currentBalanceLabel = new JLabel(newOwner.getCheckingBalance());
+		currentBalanceLabel.setBounds(338, 458, 61, 16);
+		add(currentBalanceLabel);
 		twoHund.addActionListener(new AmountButtonListener(200));
 
 	}
@@ -137,20 +153,31 @@ public class WithdrawScreen extends JPanel {
 			// TODO Auto-generated method stub
 			if(checking.isSelected()==true){
 				
-				Owner newOwner= new Owner();
+				//newOwner= new Owner();
 				newOwner.getData();
-				System.out.println("Before subtract "+newOwner.getCheckingBalance());
+				//System.out.println("Before subtract "+newOwner.getCheckingBalance());
+				//newOwner.subtractChecking(new BigInteger(amount));
+				//System.out.println("After subtract "+newOwner.getCheckingBalance());
+				//currentBalanceLabel.setText(newOwner.getCheckingBalance());
+				if(checkingBalance-Integer.valueOf(amount)>=0){
+				checkingBalance-=Integer.valueOf(amount);
+				currentBalanceLabel.setText(String.valueOf(checkingBalance));
 				newOwner.subtractChecking(new BigInteger(amount));
-				System.out.println("After subtract "+newOwner.getCheckingBalance());
-				
+				}
 			}//end if statement
 			else {
-				Owner newOwner= new Owner();
+			//	newOwner= new Owner();
 				newOwner.getData();
 				
-				System.out.println("Before subtract "+newOwner.getSavingsBalance());
+//				System.out.println("Before subtract "+newOwner.getSavingsBalance());
+//				newOwner.subtractSavings(new BigInteger(amount));
+//				System.out.println("After subtract "+newOwner.getSavingsBalance());
+//				currentBalanceLabel.setText(newOwner.getSavingsBalance());
+				if(savingsBalance-Integer.valueOf(amount)>=0){
+				savingsBalance-=Integer.valueOf(amount);
+				currentBalanceLabel.setText(String.valueOf(savingsBalance));
 				newOwner.subtractSavings(new BigInteger(amount));
-				System.out.println("After subtract "+newOwner.getSavingsBalance());
+				}
 			}
 			
 		}
@@ -170,10 +197,12 @@ public class WithdrawScreen extends JPanel {
 			if(isChecking==true){
 				checking.setSelected(true);
 				savings.setSelected(false);
+				currentBalanceLabel.setText(String.valueOf(checkingBalance));
 			}
 			else{
 				checking.setSelected(false);
 				savings.setSelected(true);
+				currentBalanceLabel.setText(String.valueOf(savingsBalance));
 			}
 			
 		}
@@ -199,8 +228,11 @@ public class WithdrawScreen extends JPanel {
 			thou.doClick();
 		}else if (Integer.parseInt(digit)== 0){
 			withdraw.doClick();
+		}else if (Integer.parseInt(digit)== 7){
+			checking.doClick();
+		}else if (Integer.parseInt(digit)== 8){
+			savings.doClick();
 		}
 		
 	} //end onDigitEntered
-	
 }

@@ -29,6 +29,7 @@ static ArrayList<String> loadData = new ArrayList<String>();
         }
       
     } finally {
+    //	br.reset();
         br.close();
     }
 	
