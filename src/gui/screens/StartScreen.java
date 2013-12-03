@@ -31,4 +31,9 @@ public class StartScreen extends JPanel {
 		begin.setBounds(512, 171, 181, 53);
 		add(begin);
 	}
+	public void onDigitEntered(String digit) {
+		if (Integer.parseInt(digit)== -1){
+			begin.doClick();
+		}
+	}
 }

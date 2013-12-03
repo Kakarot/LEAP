@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class PinScreen extends JPanel implements InputListener{
-	private JTextField txtPinHere;
-	private short pinNumber =1234;
+	public JTextField txtPinHere;
+	public short pinNumber =1234;
 	public JButton zero = new JButton("0");
 	public JButton one = new JButton("1");
 	public JButton two = new JButton("2");
@@ -29,7 +29,7 @@ public class PinScreen extends JPanel implements InputListener{
 	//public JButton[] buttons = { zero, one, two, three, four, five, six, seven, eight, nine, clear, enter };
 	
 	static PinScreen instance;
-	String pswd = "";
+	public String pswd = "";
 	
 	private PinScreen() {
 		
@@ -164,18 +164,20 @@ public class PinScreen extends JPanel implements InputListener{
 		
 		two.setBounds(97, 205, 97, 25);
 		add(two);
-		two.addActionListener(new ActionListener() {
-			 
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(pswd.length()<4){
-				System.out.println("Two");
-				pswd+="2";
-				txtPinHere.setText(pswd);
-				}
-			}
-        });   
+		two.addActionListener(new PinButtonListener(2));
+	    
+//		two.addActionListener(new ActionListener() {
+//			 
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(pswd.length()<4){
+//				System.out.println("Two");
+//				pswd+="2";
+//				txtPinHere.setText(pswd);
+//				}
+//			}
+//        });   
 		
 		three.setBounds(193, 205, 97, 25);
 		add(three);
@@ -233,7 +235,7 @@ public class PinScreen extends JPanel implements InputListener{
 					
 					System.out.println("enter pressed");
 					}
-					System.out.println("Incorret PIN, please try again!");
+				//	System.out.println("Incorret PIN, please try again!");
 				
 			}
         });   
@@ -267,9 +269,9 @@ public class PinScreen extends JPanel implements InputListener{
 			if(pswd.length()>0 && Short.parseShort(pswd)==pinNumber){
 			enter.doClick();
 			System.out.println("enter pressed");
-			}
+			}else{
 			System.out.println("Incorret PIN, please try again!");
-			
+			}
 		}else if (Integer.parseInt(digit)==-2){
 			clear.doClick();
 			txtPinHere.setText("PIN here");
@@ -297,7 +299,22 @@ public class PinScreen extends JPanel implements InputListener{
 		}
 		return instance;
 	}
-	
+	private class PinButtonListener implements ActionListener{
+		int pinNum;
+		
+		public PinButtonListener(int pinNum){
+			this.pinNum=pinNum;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(pswd.length()<4){
+				pswd+=pinNum;
+				txtPinHere.setText(pswd);
+			}
+			
+		}
+		
+	}//end
 	
 	
 }

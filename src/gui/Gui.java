@@ -26,9 +26,9 @@ public class Gui extends JFrame implements InputListener{
 	private StartScreen start ;
 	private PinScreen pin;
 	private OptionScreen option;
-	private DepositScreen dep ;
+	//private DepositScreen dep ;
 	private WithdrawScreen with;
-	private short pinNumber = 1234;
+
 	private Owner newOwner;
 
 	TestListener listener;
@@ -37,17 +37,17 @@ public class Gui extends JFrame implements InputListener{
 	private Gui() {
 		setPreferredSize(new Dimension(800, 600));
 		setResizable(false);
-		
+
 		start = new StartScreen();
 		pin = PinScreen.getInstance();
 		option = OptionScreen.getInstance();
-		dep = new DepositScreen();
+//		dep = new DepositScreen();
 		with = new WithdrawScreen();
-		
-		
+
+
 		start.begin.addActionListener(new PinListener());
 		pin.enter.addActionListener(new OptionListener());
-		option.deposit.addActionListener(new DepositListener());
+//		option.savings.addActionListener(new DepositListener());
 		option.withdraw.addActionListener(new WithdrawListener());
 		option.end.addActionListener(new ExitListener());
 		add(start);
@@ -98,15 +98,15 @@ public class Gui extends JFrame implements InputListener{
 		pack();
 	}
 
-	public void changeToDeposit(JPanel screen) {
-		dep = new DepositScreen();
-		dep.back.addActionListener(new OptionListener());
-		dep.exit.addActionListener(new ExitListener());
-		remove(screen);
-		add(dep);
-		pack();
-
-	}
+//	public void changeToDeposit(JPanel screen) {
+//		dep = new DepositScreen();
+//		dep.back.addActionListener(new OptionListener());
+//		dep.exit.addActionListener(new ExitListener());
+//		remove(screen);
+//		add(dep);
+//		pack();
+//
+//	}
 
 	public void changeToWithdraw(JPanel screen) {
 		with = new WithdrawScreen();
@@ -127,25 +127,25 @@ public class Gui extends JFrame implements InputListener{
 	private class PinListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
+			
 			changeToPin((JPanel) ((JButton) e.getSource()).getParent());
 			repaint();
-
+		
 		}
 
 	}
 
 	private class OptionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-//			controller.removeListener(listener);
+			//			controller.removeListener(listener);
 			// Compare entered PIN with stored PIN
-			if (pinNumber == Short.parseShort(newOwner.getList().get(3))) {
+			//if (pinNumber == Short.parseShort(newOwner.getList().get(3))) {
+			if(pin.pswd.length()>0 && Short.parseShort(pin.pswd)==pin.pinNumber){
 				changeToOption((JPanel) ((JButton) e.getSource()).getParent());
 				System.out.println("changed to Option window");
 				repaint();
 			} // end if
-			else {
-				System.out.println("Incorrect PIN, please try again!");
-			} // end else
+		
 		} // end actionPerformed
 	}// end OptionListener
 
@@ -156,13 +156,13 @@ public class Gui extends JFrame implements InputListener{
 		}
 	}
 
-	private class DepositListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			changeToDeposit((JPanel) ((JButton) e.getSource()).getParent());
-			repaint();
-
-		}
-	}
+//	private class DepositListener implements ActionListener {
+//		public void actionPerformed(ActionEvent e) {
+//			changeToDeposit((JPanel) ((JButton) e.getSource()).getParent());
+//			repaint();
+//
+//		}
+//	}
 
 	private class WithdrawListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -170,7 +170,7 @@ public class Gui extends JFrame implements InputListener{
 			repaint();
 		}
 	}
-	
+
 	public static Gui getInstance() {
 		if (guiInstance == null) {
 			synchronized (Gui.class) {
@@ -185,7 +185,7 @@ public class Gui extends JFrame implements InputListener{
 
 	@Override
 	public void onDigitEntered(String digit) {
-		
+
 		Component component = ((JRootPane)getComponent(0)).getContentPane().getComponent(0);
 
 
@@ -194,10 +194,14 @@ public class Gui extends JFrame implements InputListener{
 			pin.onDigitEntered(digit);
 		}else if(component.equals(option)){
 			option.onDigitEntered(digit);
+		}else if(component.equals(start)){
+			start.onDigitEntered(digit);
+		}else if(component.equals(with)){
+			with.onDigitEntered(digit);
 		}
 	}
 
-//	public void getPIN(){
-//		pin.
-//	}
+	//	public void getPIN(){
+	//		pin.
+	//	}
 }

@@ -3,15 +3,19 @@ package gui.screens;
 import gui.InputListener;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import banking.Owner;
+
 public class OptionScreen extends JPanel implements InputListener{
 	public JButton balance;
-	public JButton deposit;
+	public JButton savings;
 	public JButton withdraw;
 	public JButton end;
 	
@@ -33,10 +37,32 @@ public class OptionScreen extends JPanel implements InputListener{
 		balance = new JButton("0) Check Balance");
 		balance.setBounds(63, 114, 181, 53);
 		add(balance);
+		balance.addActionListener(new ActionListener() {
+			 
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Owner newOwner=new Owner();
+				newOwner.getData();
+				System.out.println(newOwner.getCheckingBalance());
+				
+			}
+        });   
 		
-		deposit = new JButton("1) Deposit");
-		deposit.setBounds(63, 205, 181, 53);
-		add(deposit);
+		savings = new JButton("1) Check Savings");
+		savings.setBounds(63, 205, 181, 53);
+		add(savings);
+		savings.addActionListener(new ActionListener() {
+			 
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Owner newOwner=new Owner();
+				newOwner.getData();
+				System.out.println(newOwner.getSavingsBalance());
+				
+			}
+        });   
 		
 		withdraw = new JButton("2) Withdraw");
 		withdraw.setBounds(63, 289, 181, 53);
@@ -56,9 +82,11 @@ public class OptionScreen extends JPanel implements InputListener{
 	public void onDigitEntered(String digit) {
 		if (digit.equals("0")){
 			balance.doClick();
-		}else if(digit.equals("1")){
-			deposit.doClick();
-		}else if(digit.equals("2")){
+		}
+			else if(digit.equals("1")){
+			savings.doClick();
+		}
+	else if(digit.equals("2")){
 			withdraw.doClick();
 		}else if(digit.equals("3")){
 			end.doClick();
